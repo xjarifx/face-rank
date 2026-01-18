@@ -1,7 +1,12 @@
 import { useState, useRef } from "react";
 import { useAdmin } from "../context/AdminContext";
 import { useToast } from "../context/ToastContext";
-import { addPerson, addImagesToPerson, deletePerson } from "../api";
+import {
+  addPerson,
+  addImagesToPerson,
+  deletePerson,
+  deletePersonImage,
+} from "../api";
 
 export function AdminPanel({ people, onRefresh }) {
   const { adminPassword, logoutAdmin } = useAdmin();
@@ -68,6 +73,21 @@ export function AdminPanel({ people, onRefresh }) {
     });
   };
 
+  const handleDeleteImage = (personId, imageUrl) => {
+    showConfirm("Remove this image from the person?", {
+      confirmLabel: "Remove",
+      onConfirm: async () => {
+        try {
+          await deletePersonImage(personId, imageUrl, adminPassword);
+          showToast("Image removed successfully!", "success");
+          onRefresh();
+        } catch (err) {
+          showToast("Error removing image", "error");
+        }
+      },
+    });
+  };
+
   const defaultImage =
     'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23ddd" width="100" height="100"/></svg>';
 
@@ -126,36 +146,66 @@ export function AdminPanel({ people, onRefresh }) {
             {people.map((person) => (
               <div
                 key={person.id}
-                className="flex items-center justify-between bg-slate-800/80 p-4 rounded-xl border border-slate-700"
+                className="bg-slate-800/80 p-4 rounded-xl border border-slate-700 space-y-4"
               >
-                <div className="flex items-center gap-4">
-                  <img
-                    src={person.images[0] || defaultImage}
-                    alt={person.name}
-                    className="w-14 h-14 object-cover rounded-full"
-                  />
-                  <div>
-                    <strong className="text-slate-100">{person.name}</strong>
-                    <br />
-                    <small className="text-slate-400">
-                      {person.images.length} images | {person.totalRatings}{" "}
-                      ratings
-                    </small>
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={person.images[0] || defaultImage}
+                      alt={person.name}
+                      className="w-14 h-14 object-cover rounded-full"
+                    />
+                    <div>
+                      <strong className="text-slate-100">{person.name}</strong>
+                      <br />
+                      <small className="text-slate-400">
+                        {person.images.length} images | {person.totalRatings}{" "}
+                        ratings
+                      </small>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleAddImages(person.id)}
+                      className="px-3 py-2 bg-cyan-500 text-white rounded-lg text-sm hover:bg-cyan-400 cursor-pointer"
+                    >
+                      + Images
+                    </button>
+                    <button
+                      onClick={() => handleDeletePerson(person.id)}
+                      className="px-3 py-2 bg-rose-500 text-white rounded-lg text-sm hover:bg-rose-400 cursor-pointer"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleAddImages(person.id)}
-                    className="px-3 py-2 bg-cyan-500 text-white rounded-lg text-sm hover:bg-cyan-400 cursor-pointer"
-                  >
-                    + Images
-                  </button>
-                  <button
-                    onClick={() => handleDeletePerson(person.id)}
-                    className="px-3 py-2 bg-rose-500 text-white rounded-lg text-sm hover:bg-rose-400 cursor-pointer"
-                  >
-                    Delete
-                  </button>
+
+                <div className="flex flex-wrap gap-3">
+                  {person.images.length === 0 ? (
+                    <span className="text-slate-500 text-sm">
+                      No images available.
+                    </span>
+                  ) : (
+                    person.images.map((imageUrl, index) => (
+                      <div
+                        key={`${person.id}-${index}`}
+                        className="relative group"
+                      >
+                        <img
+                          src={imageUrl}
+                          alt={`${person.name} ${index + 1}`}
+                          className="w-20 h-20 object-cover rounded-lg ring-1 ring-slate-700"
+                        />
+                        <button
+                          onClick={() => handleDeleteImage(person.id, imageUrl)}
+                          className="absolute -top-2 -right-2 bg-rose-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                          title="Remove image"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             ))}

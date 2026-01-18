@@ -181,8 +181,8 @@ app.post("/api/rate", async (req, res) => {
         .json({ error: "Person ID and rating are required" });
     }
 
-    if (rating < 1 || rating > 10) {
-      return res.status(400).json({ error: "Rating must be between 1 and 10" });
+    if (rating < 1 || rating > 5) {
+      return res.status(400).json({ error: "Rating must be between 1 and 5" });
     }
 
     // Check if person exists

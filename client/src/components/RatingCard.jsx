@@ -7,7 +7,7 @@ const defaultImage =
 
 export function RatingCard({ person, onRefresh }) {
   const { showToast, showConfirm } = useToast();
-  const [rating, setRating] = useState(5);
+  const [rating, setRating] = useState(3);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -70,14 +70,14 @@ export function RatingCard({ person, onRefresh }) {
         {/* Content Section */}
         <h3 className="text-xl font-bold text-slate-100 mb-2">{person.name}</h3>
         <div className="flex justify-between text-slate-300 text-sm mb-4">
-          <span>⭐ Avg: {person.avgRating}/10</span>
+          <span>⭐ Avg: {person.avgRating}/5</span>
           <span>👥 {person.totalRatings} ratings</span>
         </div>
 
         {person.userVoted ? (
           <div className="text-center">
             <div className="bg-emerald-400/20 text-emerald-100 py-2 px-4 rounded-lg mb-3 border border-emerald-400/30">
-              Your vote: <strong>{person.userRating}/10</strong>
+              Your vote: <strong>{person.userRating}/5</strong>
             </div>
             <button
               onClick={handleDeleteVote}
@@ -92,7 +92,7 @@ export function RatingCard({ person, onRefresh }) {
               <input
                 type="range"
                 min="1"
-                max="10"
+                max="5"
                 value={rating}
                 onChange={(e) => setRating(parseInt(e.target.value))}
                 className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"

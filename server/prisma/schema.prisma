@@ -32,7 +32,7 @@ model Image {
 
 model Rating {
   id        String   @id @default(uuid())
-  rating    Int      // 1-10 scale
+  rating    Int      // 1-5 scale
   ipAddress String   // User's IP address to prevent duplicate votes
   personId  String
   person    Person   @relation(fields: [personId], references: [id], onDelete: Cascade)

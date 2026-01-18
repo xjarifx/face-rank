@@ -52,7 +52,7 @@ export function Leaderboard({ data }) {
               </span>
             </div>
             <div className="text-2xl font-bold text-fuchsia-200">
-              {person.avgRating}/10
+              {person.avgRating}/5
             </div>
           </div>
         );
