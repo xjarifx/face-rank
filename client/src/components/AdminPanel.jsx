@@ -5,7 +5,7 @@ import { addPerson, addImagesToPerson, deletePerson } from "../api";
 
 export function AdminPanel({ people, onRefresh }) {
   const { adminPassword, logoutAdmin } = useAdmin();
-  const { showToast } = useToast();
+  const { showToast, showConfirm } = useToast();
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
@@ -53,16 +53,19 @@ export function AdminPanel({ people, onRefresh }) {
     input.click();
   };
 
-  const handleDeletePerson = async (personId) => {
-    if (!confirm("Are you sure you want to delete this person?")) return;
-
-    try {
-      await deletePerson(personId, adminPassword);
-      showToast("Person deleted successfully!", "success");
-      onRefresh();
-    } catch (err) {
-      showToast("Error deleting person", "error");
-    }
+  const handleDeletePerson = (personId) => {
+    showConfirm("Delete this person and all their images?", {
+      confirmLabel: "Delete",
+      onConfirm: async () => {
+        try {
+          await deletePerson(personId, adminPassword);
+          showToast("Person deleted successfully!", "success");
+          onRefresh();
+        } catch (err) {
+          showToast("Error deleting person", "error");
+        }
+      },
+    });
   };
 
   const defaultImage =

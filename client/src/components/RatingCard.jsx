@@ -6,7 +6,7 @@ const defaultImage =
   'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23ddd" width="100" height="100"/><text x="50" y="55" text-anchor="middle" fill="%23999" font-size="14">No Image</text></svg>';
 
 export function RatingCard({ person, onRefresh }) {
-  const { showToast } = useToast();
+  const { showToast, showConfirm } = useToast();
   const [rating, setRating] = useState(5);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -37,16 +37,19 @@ export function RatingCard({ person, onRefresh }) {
     }
   };
 
-  const handleDeleteVote = async () => {
-    if (!confirm("Are you sure you want to delete your vote?")) return;
-
-    try {
-      await deleteVote(person.id);
-      showToast("Vote deleted! You can vote again.", "success");
-      onRefresh();
-    } catch (err) {
-      showToast("Error deleting vote", "error");
-    }
+  const handleDeleteVote = () => {
+    showConfirm("Delete your vote for this person?", {
+      confirmLabel: "Delete",
+      onConfirm: async () => {
+        try {
+          await deleteVote(person.id);
+          showToast("Vote deleted! You can vote again.", "success");
+          onRefresh();
+        } catch (err) {
+          showToast("Error deleting vote", "error");
+        }
+      },
+    });
   };
 
   return (
