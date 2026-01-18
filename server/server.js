@@ -20,13 +20,18 @@ cloudinary.config({
 const allowedOrigins = (process.env.CLIENT_URL || "")
   .split(",")
   .map((origin) => origin.trim())
-  .filter(Boolean);
+  .filter(Boolean)
+  .map((origin) => origin.replace(/\/+$/g, ""));
 
 app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) return callback(null, true);
+      if (allowedOrigins.length === 0) return callback(null, true);
+      const normalizedOrigin = origin.replace(/\/+$/g, "");
+      if (allowedOrigins.includes(normalizedOrigin)) {
+        return callback(null, true);
+      }
       return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
