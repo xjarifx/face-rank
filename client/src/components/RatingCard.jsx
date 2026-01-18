@@ -18,7 +18,7 @@ export function RatingCard({ person, onRefresh }) {
     try {
       await submitRating(person.id, rating);
       setSubmitted(true);
-      showToast("Rating submitted!", "success");
+      showToast("Vote submitted! Thanks for participating! 🎉", "success");
       setTimeout(() => {
         onRefresh();
       }, 1500);
@@ -53,7 +53,7 @@ export function RatingCard({ person, onRefresh }) {
   };
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+    <div className="bg-gradient-to-br from-slate-900/90 to-slate-800/90 border border-purple-500/30 rounded-2xl shadow-xl shadow-purple-500/10 overflow-hidden hover:border-purple-500/50 transition-all">
       <div className="p-5 flex flex-col gap-5">
         {/* Image Row */}
         <div className="flex flex-wrap gap-3">
@@ -62,26 +62,30 @@ export function RatingCard({ person, onRefresh }) {
               key={`${person.id}-${index}`}
               src={src}
               alt={`${person.name} ${index + 1}`}
-              className="h-36 w-36 object-cover rounded-xl bg-slate-800 ring-1 ring-slate-700"
+              className="h-36 w-36 object-cover rounded-xl bg-slate-800 ring-2 ring-cyan-500/40 hover:ring-cyan-400/60 transition-all"
             />
           ))}
         </div>
 
         {/* Content Section */}
-        <h3 className="text-xl font-bold text-slate-100 mb-2">{person.name}</h3>
-        <div className="flex justify-between text-slate-300 text-sm mb-4">
-          <span>⭐ Avg: {person.avgRating}/5</span>
-          <span>👥 {person.totalRatings} ratings</span>
+        <h3 className="text-xl font-bold bg-gradient-to-r from-white to-cyan-200 text-transparent bg-clip-text mb-2">
+          {person.name}
+        </h3>
+        <div className="flex justify-between text-sm mb-4">
+          <span className="text-amber-300">⭐ Avg: {person.avgRating}/5</span>
+          <span className="text-purple-300">
+            👥 {person.totalRatings} ratings
+          </span>
         </div>
 
         {person.userVoted ? (
           <div className="text-center">
-            <div className="bg-emerald-400/20 text-emerald-100 py-2 px-4 rounded-lg mb-3 border border-emerald-400/30">
+            <div className="bg-gradient-to-r from-emerald-500/30 to-green-500/30 text-emerald-100 py-2 px-4 rounded-lg mb-3 border border-emerald-400/50 shadow-lg shadow-emerald-500/20">
               Your vote: <strong>{person.userRating}/5</strong>
             </div>
             <button
               onClick={handleDeleteVote}
-              className="text-rose-300 hover:text-rose-200 font-medium cursor-pointer"
+              className="text-rose-400 hover:text-rose-300 font-medium cursor-pointer hover:underline transition-all"
             >
               🗑️ Delete Vote & Vote Again
             </button>
@@ -95,26 +99,26 @@ export function RatingCard({ person, onRefresh }) {
                 max="5"
                 value={rating}
                 onChange={(e) => setRating(parseInt(e.target.value))}
-                className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 hover:accent-cyan-300"
               />
             </div>
-            <div className="text-center text-3xl font-bold text-cyan-200 mb-4">
-              {rating}
+            <div className="text-center text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 text-transparent bg-clip-text mb-4">
+              {rating} ⭐
             </div>
             <button
               onClick={handleSubmitRating}
               disabled={submitting || submitted}
-              className={`w-full py-3 rounded-lg font-medium transition-all cursor-pointer ${
+              className={`w-full py-3 rounded-lg font-semibold transition-all cursor-pointer shadow-lg ${
                 submitted
-                  ? "bg-emerald-600 text-white"
-                  : "bg-gradient-to-r from-cyan-500 to-fuchsia-600 text-white hover:scale-[1.02]"
+                  ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-emerald-500/50"
+                  : "bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:scale-[1.02] hover:shadow-purple-500/50"
               } disabled:opacity-70`}
             >
               {submitted
                 ? "✓ Submitted!"
                 : submitting
                   ? "Submitting..."
-                  : "Submit Rating"}
+                  : "Submit Vote"}
             </button>
           </>
         )}
