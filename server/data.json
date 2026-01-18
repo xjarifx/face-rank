@@ -1,0 +1,46 @@
+{
+  "people": [
+    {
+      "id": "4450f2c3-1aa3-42ab-81dd-804495235b57",
+      "name": "person a",
+      "images": [
+        "/uploads/bf16f604-776d-489d-82ec-7abb574ce9d3.jpg",
+        "/uploads/0d2e571b-8fb1-4e9c-94bf-d3c9393cbc3c.jpg"
+      ],
+      "createdAt": "2026-01-17T14:56:50.862Z"
+    },
+    {
+      "id": "155c4144-ef75-463d-b92d-9617860fdfb7",
+      "name": "person b",
+      "images": [
+        "/uploads/b6bb32f3-a7b6-4293-82fa-cb24c132674d.jpg",
+        "/uploads/f25195d5-644b-4e0c-9c3e-5cc9ba79153f.jpg"
+      ],
+      "createdAt": "2026-01-17T14:57:33.108Z"
+    }
+  ],
+  "ratings": {
+    "4450f2c3-1aa3-42ab-81dd-804495235b57": [
+      10,
+      5,
+      8,
+      1,
+      {
+        "ip": "::1",
+        "rating": 5,
+        "timestamp": "2026-01-17T15:15:34.792Z"
+      }
+    ],
+    "155c4144-ef75-463d-b92d-9617860fdfb7": [
+      6,
+      5,
+      10,
+      9,
+      {
+        "ip": "::1",
+        "rating": 5,
+        "timestamp": "2026-01-17T15:15:43.112Z"
+      }
+    ]
+  }
+}
