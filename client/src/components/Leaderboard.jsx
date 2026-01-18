@@ -34,7 +34,7 @@ export function Leaderboard({ data }) {
         return (
           <div
             key={person.id}
-            className="bg-slate-900/90 border border-purple-500/30 rounded-2xl p-4 flex items-center gap-4 shadow-lg hover:border-purple-500/50 hover:shadow-purple-500/20 transition-all"
+            className="bg-slate-900/80 border border-slate-800/70 rounded-2xl p-4 flex items-center gap-4 shadow-lg hover:border-purple-500/50 hover:shadow-purple-500/20 hover:-translate-y-0.5 transition-all"
           >
             <div
               className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg ${getRankStyle(

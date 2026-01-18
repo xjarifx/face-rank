@@ -53,27 +53,36 @@ export function RatingCard({ person, onRefresh }) {
   };
 
   return (
-    <div className="bg-slate-900/90 border border-purple-500/30 rounded-2xl shadow-xl shadow-purple-500/10 overflow-hidden hover:border-purple-500/50 transition-all">
+    <div className="bg-slate-900/80 border border-slate-800/70 rounded-2xl shadow-xl shadow-purple-500/10 overflow-hidden hover:border-purple-500/50 hover:-translate-y-0.5 transition-all">
       <div className="p-5 flex flex-col gap-5">
+        <div className="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
+          <span>Profile</span>
+          <span>
+            {images.length} photo{images.length === 1 ? "" : "s"}
+          </span>
+        </div>
+
         {/* Image Row */}
-        <div className="flex flex-wrap gap-3">
+        <div className="flex gap-3 overflow-x-auto pb-1">
           {images.map((src, index) => (
             <img
               key={`${person.id}-${index}`}
               src={src}
               alt={`${person.name} ${index + 1}`}
-              className="h-36 w-36 object-cover rounded-xl bg-slate-800 ring-2 ring-cyan-500/40 hover:ring-cyan-400/60 transition-all"
+              className="h-36 w-36 flex-shrink-0 object-cover rounded-xl bg-slate-800 ring-2 ring-cyan-500/30 hover:ring-cyan-400/60 transition-all"
             />
           ))}
         </div>
 
         {/* Content Section */}
-        <h3 className="text-xl font-bold text-white mb-2">{person.name}</h3>
-        <div className="flex justify-between text-sm mb-4">
-          <span className="text-amber-300">⭐ Avg: {person.avgRating}/5</span>
-          <span className="text-purple-300">
-            👥 {person.totalRatings} ratings
-          </span>
+        <div>
+          <h3 className="text-xl font-bold text-white mb-1">{person.name}</h3>
+          <div className="flex justify-between text-sm">
+            <span className="text-amber-300">⭐ Avg: {person.avgRating}/5</span>
+            <span className="text-purple-300">
+              👥 {person.totalRatings} ratings
+            </span>
+          </div>
         </div>
 
         {person.userVoted ? (
@@ -98,7 +107,15 @@ export function RatingCard({ person, onRefresh }) {
                 value={rating}
                 onChange={(e) => setRating(parseInt(e.target.value))}
                 className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 hover:accent-cyan-300"
+                aria-label="Rating slider"
               />
+              <div className="flex justify-between text-xs text-slate-400 mt-2">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+              </div>
             </div>
             <div className="text-center text-4xl font-bold text-cyan-400 mb-4">
               {rating} ⭐

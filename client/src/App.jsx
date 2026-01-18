@@ -63,53 +63,75 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 p-5 text-slate-100">
-      <div className="max-w-6xl mx-auto">
-        <Header onAdminClick={handleAdminClick} isAdmin={isAdmin} />
+    <div className="min-h-screen bg-slate-950 text-slate-100 relative overflow-hidden">
+      <div className="pointer-events-none absolute -top-32 right-0 h-72 w-72 bg-cyan-500/20 blur-3xl rounded-full" />
+      <div className="pointer-events-none absolute top-32 -left-16 h-80 w-80 bg-fuchsia-500/20 blur-3xl rounded-full" />
+      <div className="pointer-events-none absolute bottom-0 right-1/3 h-72 w-72 bg-emerald-500/10 blur-3xl rounded-full" />
 
-        <AdminLoginModal
-          isOpen={showAdminModal}
-          onClose={() => {
-            setShowAdminModal(false);
-            setAdminError("");
-          }}
-          onLogin={handleAdminLogin}
-          error={adminError}
-        />
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-slate-900/60 border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur">
+          <Header onAdminClick={handleAdminClick} isAdmin={isAdmin} />
 
-        {isAdmin && showAdminPanel ? (
-          <AdminPanel people={people} onRefresh={loadData} />
-        ) : (
-          <>
-            <TabNav activeTab={activeTab} onTabChange={setActiveTab} />
+          <AdminLoginModal
+            isOpen={showAdminModal}
+            onClose={() => {
+              setShowAdminModal(false);
+              setAdminError("");
+            }}
+            onLogin={handleAdminLogin}
+            error={adminError}
+          />
 
-            {loading ? (
-              <div className="text-center text-white py-12">
-                <p className="text-xl">Loading...</p>
-              </div>
-            ) : activeTab === "rate" ? (
-              people.length === 0 ? (
-                <div className="text-center text-white py-12">
-                  <p className="text-xl opacity-80">
-                    No people to rate yet. Admin needs to add some!
-                  </p>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-6">
-                  {people.map((person) => (
-                    <RatingCard
-                      key={person.id}
-                      person={person}
-                      onRefresh={loadData}
-                    />
+          {isAdmin && showAdminPanel ? (
+            <AdminPanel people={people} onRefresh={loadData} />
+          ) : (
+            <>
+              <TabNav activeTab={activeTab} onTabChange={setActiveTab} />
+
+              {loading ? (
+                <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 py-6">
+                  {Array.from({ length: 6 }).map((_, index) => (
+                    <div
+                      key={`loading-${index}`}
+                      className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 shadow-lg animate-pulse"
+                    >
+                      <div className="h-36 w-full rounded-xl bg-slate-800 mb-4" />
+                      <div className="h-5 w-2/3 bg-slate-800 rounded mb-2" />
+                      <div className="h-4 w-1/2 bg-slate-800 rounded mb-4" />
+                      <div className="h-10 w-full bg-slate-800 rounded" />
+                    </div>
                   ))}
                 </div>
-              )
-            ) : (
-              <Leaderboard data={leaderboard} />
-            )}
-          </>
-        )}
+              ) : activeTab === "rate" ? (
+                people.length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className="mx-auto h-14 w-14 rounded-full bg-slate-800 flex items-center justify-center text-2xl mb-4">
+                      👥
+                    </div>
+                    <p className="text-xl text-slate-200">
+                      No people to rate yet
+                    </p>
+                    <p className="text-slate-400 mt-2">
+                      Ask an admin to add profiles to get started.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                    {people.map((person) => (
+                      <RatingCard
+                        key={person.id}
+                        person={person}
+                        onRefresh={loadData}
+                      />
+                    ))}
+                  </div>
+                )
+              ) : (
+                <Leaderboard data={leaderboard} />
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

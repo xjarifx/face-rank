@@ -21,15 +21,18 @@ export function AdminLoginModal({ isOpen, onClose, onLogin, error }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-      <div className="bg-slate-900 border border-slate-800 p-10 rounded-2xl text-center max-w-md w-11/12 relative text-slate-100 shadow-2xl">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50">
+      <div className="bg-slate-900/90 border border-slate-800 p-10 rounded-2xl text-center max-w-md w-11/12 relative text-slate-100 shadow-2xl">
         <button
           onClick={onClose}
           className="absolute top-4 right-5 text-2xl text-slate-400 hover:text-slate-200 cursor-pointer"
         >
           &times;
         </button>
-        <h2 className="text-2xl font-bold text-slate-100 mb-5">Admin Login</h2>
+        <h2 className="text-2xl font-bold text-slate-100 mb-2">Admin Login</h2>
+        <p className="text-sm text-slate-400 mb-5">
+          Enter the admin password to manage profiles.
+        </p>
         <form onSubmit={handleSubmit}>
           <input
             type="password"

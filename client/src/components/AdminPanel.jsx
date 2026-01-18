@@ -92,9 +92,14 @@ export function AdminPanel({ people, onRefresh }) {
     'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23ddd" width="100" height="100"/></svg>';
 
   return (
-    <section className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 mb-5 shadow-xl">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-slate-100">👑 Admin Panel</h2>
+    <section className="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-6 mb-5 shadow-xl">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-100">👑 Admin Panel</h2>
+          <p className="text-sm text-slate-400">
+            Manage profiles, images, and voting data.
+          </p>
+        </div>
         <button
           onClick={logoutAdmin}
           className="px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-400 cursor-pointer shadow-sm"
@@ -111,24 +116,26 @@ export function AdminPanel({ people, onRefresh }) {
         <h3 className="text-lg font-semibold text-slate-300 mb-4">
           Add New Person
         </h3>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Person's name"
-          className="w-full p-3 border-2 border-slate-700 bg-slate-900 text-slate-100 placeholder-slate-400 rounded-lg text-base mb-3 focus:outline-none focus:border-cyan-400"
-        />
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          multiple
-          className="mb-4 block w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-cyan-500/20 file:text-cyan-200 hover:file:bg-cyan-500/30"
-        />
+        <div className="grid gap-3 md:grid-cols-[1.2fr_1fr] md:items-center">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Person's name"
+            className="w-full p-3 border-2 border-slate-700 bg-slate-900 text-slate-100 placeholder-slate-400 rounded-lg text-base focus:outline-none focus:border-cyan-400"
+          />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="block w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-cyan-500/20 file:text-cyan-200 hover:file:bg-cyan-500/30"
+          />
+        </div>
         <button
           type="submit"
           disabled={loading}
-          className="px-6 py-3 bg-cyan-500 text-white rounded-lg font-medium hover:scale-[1.02] transition-transform disabled:opacity-50 cursor-pointer"
+          className="mt-4 px-6 py-3 bg-cyan-500 text-white rounded-lg font-medium hover:scale-[1.02] transition-transform disabled:opacity-50 cursor-pointer"
         >
           {loading ? "Adding..." : "Add Person"}
         </button>
@@ -153,7 +160,7 @@ export function AdminPanel({ people, onRefresh }) {
                     <img
                       src={person.images[0] || defaultImage}
                       alt={person.name}
-                      className="w-14 h-14 object-cover rounded-full"
+                      className="w-14 h-14 object-cover rounded-full ring-2 ring-cyan-500/30"
                     />
                     <div>
                       <strong className="text-slate-100">{person.name}</strong>
