@@ -42,7 +42,7 @@ export function AdminLoginModal({ isOpen, onClose, onLogin, error }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full p-3 bg-gradient-to-r from-cyan-500 to-fuchsia-600 text-white rounded-lg text-base font-medium hover:scale-[1.02] transition-transform disabled:opacity-50 cursor-pointer"
+            className="w-full p-3 bg-cyan-500 text-white rounded-lg text-base font-medium hover:scale-[1.02] transition-transform disabled:opacity-50 cursor-pointer"
           >
             {loading ? "Logging in..." : "Login"}
           </button>

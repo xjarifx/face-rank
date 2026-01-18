@@ -128,7 +128,7 @@ export function AdminPanel({ people, onRefresh }) {
         <button
           type="submit"
           disabled={loading}
-          className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-fuchsia-600 text-white rounded-lg font-medium hover:scale-[1.02] transition-transform disabled:opacity-50 cursor-pointer"
+          className="px-6 py-3 bg-cyan-500 text-white rounded-lg font-medium hover:scale-[1.02] transition-transform disabled:opacity-50 cursor-pointer"
         >
           {loading ? "Adding..." : "Add Person"}
         </button>

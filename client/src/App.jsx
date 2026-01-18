@@ -63,7 +63,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-slate-900 to-purple-950 p-5 text-slate-100">
+    <div className="min-h-screen bg-slate-950 p-5 text-slate-100">
       <div className="max-w-6xl mx-auto">
         <Header onAdminClick={handleAdminClick} isAdmin={isAdmin} />
 
@@ -77,36 +77,38 @@ function AppContent() {
           error={adminError}
         />
 
-        {isAdmin && showAdminPanel && (
+        {isAdmin && showAdminPanel ? (
           <AdminPanel people={people} onRefresh={loadData} />
-        )}
-
-        <TabNav activeTab={activeTab} onTabChange={setActiveTab} />
-
-        {loading ? (
-          <div className="text-center text-white py-12">
-            <p className="text-xl">Loading...</p>
-          </div>
-        ) : activeTab === "rate" ? (
-          people.length === 0 ? (
-            <div className="text-center text-white py-12">
-              <p className="text-xl opacity-80">
-                No people to rate yet. Admin needs to add some!
-              </p>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-6">
-              {people.map((person) => (
-                <RatingCard
-                  key={person.id}
-                  person={person}
-                  onRefresh={loadData}
-                />
-              ))}
-            </div>
-          )
         ) : (
-          <Leaderboard data={leaderboard} />
+          <>
+            <TabNav activeTab={activeTab} onTabChange={setActiveTab} />
+
+            {loading ? (
+              <div className="text-center text-white py-12">
+                <p className="text-xl">Loading...</p>
+              </div>
+            ) : activeTab === "rate" ? (
+              people.length === 0 ? (
+                <div className="text-center text-white py-12">
+                  <p className="text-xl opacity-80">
+                    No people to rate yet. Admin needs to add some!
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-6">
+                  {people.map((person) => (
+                    <RatingCard
+                      key={person.id}
+                      person={person}
+                      onRefresh={loadData}
+                    />
+                  ))}
+                </div>
+              )
+            ) : (
+              <Leaderboard data={leaderboard} />
+            )}
+          </>
         )}
       </div>
     </div>

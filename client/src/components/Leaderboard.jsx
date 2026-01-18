@@ -12,12 +12,12 @@ export function Leaderboard({ data }) {
 
   const getRankStyle = (rank) => {
     if (rank === 1)
-      return "bg-gradient-to-br from-yellow-400 to-amber-500 text-slate-900 shadow-lg shadow-amber-500/50";
+      return "bg-amber-400 text-slate-900 shadow-lg shadow-amber-500/50";
     if (rank === 2)
-      return "bg-gradient-to-br from-slate-300 to-slate-400 text-slate-900 shadow-lg shadow-slate-400/50";
+      return "bg-slate-300 text-slate-900 shadow-lg shadow-slate-400/50";
     if (rank === 3)
-      return "bg-gradient-to-br from-orange-400 to-amber-600 text-white shadow-lg shadow-orange-500/50";
-    return "bg-gradient-to-br from-slate-700 to-slate-800 text-slate-200";
+      return "bg-orange-500 text-white shadow-lg shadow-orange-500/50";
+    return "bg-slate-700 text-slate-200";
   };
 
   const getMedal = (rank) => {
@@ -34,7 +34,7 @@ export function Leaderboard({ data }) {
         return (
           <div
             key={person.id}
-            className="bg-gradient-to-r from-slate-900/90 to-slate-800/90 border border-purple-500/30 rounded-2xl p-4 flex items-center gap-4 shadow-lg hover:border-purple-500/50 hover:shadow-purple-500/20 transition-all"
+            className="bg-slate-900/90 border border-purple-500/30 rounded-2xl p-4 flex items-center gap-4 shadow-lg hover:border-purple-500/50 hover:shadow-purple-500/20 transition-all"
           >
             <div
               className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg ${getRankStyle(
@@ -54,7 +54,7 @@ export function Leaderboard({ data }) {
                 {person.totalRatings} ratings
               </span>
             </div>
-            <div className="text-2xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 text-transparent bg-clip-text">
+            <div className="text-2xl font-bold text-purple-400">
               {person.avgRating}/5
             </div>
           </div>

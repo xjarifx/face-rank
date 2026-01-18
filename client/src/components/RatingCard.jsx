@@ -53,7 +53,7 @@ export function RatingCard({ person, onRefresh }) {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900/90 to-slate-800/90 border border-purple-500/30 rounded-2xl shadow-xl shadow-purple-500/10 overflow-hidden hover:border-purple-500/50 transition-all">
+    <div className="bg-slate-900/90 border border-purple-500/30 rounded-2xl shadow-xl shadow-purple-500/10 overflow-hidden hover:border-purple-500/50 transition-all">
       <div className="p-5 flex flex-col gap-5">
         {/* Image Row */}
         <div className="flex flex-wrap gap-3">
@@ -68,9 +68,7 @@ export function RatingCard({ person, onRefresh }) {
         </div>
 
         {/* Content Section */}
-        <h3 className="text-xl font-bold bg-gradient-to-r from-white to-cyan-200 text-transparent bg-clip-text mb-2">
-          {person.name}
-        </h3>
+        <h3 className="text-xl font-bold text-white mb-2">{person.name}</h3>
         <div className="flex justify-between text-sm mb-4">
           <span className="text-amber-300">⭐ Avg: {person.avgRating}/5</span>
           <span className="text-purple-300">
@@ -80,7 +78,7 @@ export function RatingCard({ person, onRefresh }) {
 
         {person.userVoted ? (
           <div className="text-center">
-            <div className="bg-gradient-to-r from-emerald-500/30 to-green-500/30 text-emerald-100 py-2 px-4 rounded-lg mb-3 border border-emerald-400/50 shadow-lg shadow-emerald-500/20">
+            <div className="bg-emerald-500/30 text-emerald-100 py-2 px-4 rounded-lg mb-3 border border-emerald-400/50 shadow-lg shadow-emerald-500/20">
               Your vote: <strong>{person.userRating}/5</strong>
             </div>
             <button
@@ -102,7 +100,7 @@ export function RatingCard({ person, onRefresh }) {
                 className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 hover:accent-cyan-300"
               />
             </div>
-            <div className="text-center text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 text-transparent bg-clip-text mb-4">
+            <div className="text-center text-4xl font-bold text-cyan-400 mb-4">
               {rating} ⭐
             </div>
             <button
@@ -110,8 +108,8 @@ export function RatingCard({ person, onRefresh }) {
               disabled={submitting || submitted}
               className={`w-full py-3 rounded-lg font-semibold transition-all cursor-pointer shadow-lg ${
                 submitted
-                  ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-emerald-500/50"
-                  : "bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:scale-[1.02] hover:shadow-purple-500/50"
+                  ? "bg-emerald-500 text-white shadow-emerald-500/50"
+                  : "bg-cyan-500 text-white hover:scale-[1.02] hover:shadow-cyan-500/50"
               } disabled:opacity-70`}
             >
               {submitted
