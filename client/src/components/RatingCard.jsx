@@ -62,14 +62,14 @@ export function RatingCard({ person, onRefresh }) {
           </span>
         </div>
 
-        {/* Image Row */}
-        <div className="flex gap-3 overflow-x-auto pb-1">
+        {/* Image Grid */}
+        <div className="grid gap-3 grid-cols-2 sm:grid-cols-3">
           {images.map((src, index) => (
             <img
               key={`${person.id}-${index}`}
               src={src}
               alt={`${person.name} ${index + 1}`}
-              className="h-36 w-36 flex-shrink-0 object-cover rounded-xl bg-slate-800 ring-2 ring-cyan-500/30 hover:ring-cyan-400/60 transition-all"
+              className="aspect-square w-full object-cover rounded-xl bg-slate-800 ring-2 ring-cyan-500/30 hover:ring-cyan-400/60 transition-all"
             />
           ))}
         </div>
