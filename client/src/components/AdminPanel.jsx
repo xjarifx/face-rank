@@ -6,6 +6,7 @@ import {
   addImagesToPerson,
   deletePerson,
   deletePersonImage,
+  updatePersonName,
 } from "../api";
 
 export function AdminPanel({ people, onRefresh }) {
@@ -13,6 +14,9 @@ export function AdminPanel({ people, onRefresh }) {
   const { showToast, showConfirm } = useToast();
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [editingName, setEditingName] = useState("");
+  const [savingId, setSavingId] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleAddPerson = async (e) => {
@@ -86,6 +90,36 @@ export function AdminPanel({ people, onRefresh }) {
         }
       },
     });
+  };
+
+  const handleStartEdit = (person) => {
+    setEditingId(person.id);
+    setEditingName(person.name);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditingName("");
+  };
+
+  const handleSaveName = async (personId) => {
+    if (!editingName.trim()) {
+      showToast("Please enter a name", "error");
+      return;
+    }
+
+    setSavingId(personId);
+    try {
+      await updatePersonName(personId, editingName.trim(), adminPassword);
+      showToast("Name updated successfully!", "success");
+      setEditingId(null);
+      setEditingName("");
+      onRefresh();
+    } catch (err) {
+      showToast("Error updating name", "error");
+    } finally {
+      setSavingId(null);
+    }
   };
 
   const defaultImage =
@@ -163,7 +197,19 @@ export function AdminPanel({ people, onRefresh }) {
                       className="w-14 h-14 object-cover rounded-full ring-2 ring-cyan-500/30"
                     />
                     <div>
-                      <strong className="text-slate-100">{person.name}</strong>
+                      {editingId === person.id ? (
+                        <input
+                          type="text"
+                          value={editingName}
+                          onChange={(e) => setEditingName(e.target.value)}
+                          className="w-full p-2 border-2 border-slate-700 bg-slate-900 text-slate-100 rounded-lg text-sm focus:outline-none focus:border-cyan-400"
+                          autoFocus
+                        />
+                      ) : (
+                        <strong className="text-slate-100">
+                          {person.name}
+                        </strong>
+                      )}
                       <br />
                       <small className="text-slate-400">
                         {person.images.length} images | {person.totalRatings}{" "}
@@ -172,6 +218,30 @@ export function AdminPanel({ people, onRefresh }) {
                     </div>
                   </div>
                   <div className="flex gap-2">
+                    {editingId === person.id ? (
+                      <>
+                        <button
+                          onClick={() => handleSaveName(person.id)}
+                          disabled={savingId === person.id}
+                          className="px-3 py-2 bg-emerald-500 text-white rounded-lg text-sm hover:bg-emerald-400 cursor-pointer disabled:opacity-60"
+                        >
+                          {savingId === person.id ? "Saving..." : "Save"}
+                        </button>
+                        <button
+                          onClick={handleCancelEdit}
+                          className="px-3 py-2 bg-slate-600 text-white rounded-lg text-sm hover:bg-slate-500 cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={() => handleStartEdit(person)}
+                        className="px-3 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-400 cursor-pointer"
+                      >
+                        Edit
+                      </button>
+                    )}
                     <button
                       onClick={() => handleAddImages(person.id)}
                       className="px-3 py-2 bg-cyan-500 text-white rounded-lg text-sm hover:bg-cyan-400 cursor-pointer"

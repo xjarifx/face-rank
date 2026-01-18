@@ -103,3 +103,16 @@ export async function deletePersonImage(personId, imageUrl, adminPassword) {
   if (!response.ok) throw new Error("Failed to delete image");
   return response.json();
 }
+
+export async function updatePersonName(personId, name, adminPassword) {
+  const response = await fetch(`${API_BASE}/api/admin/people/${personId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Admin-Password": adminPassword,
+    },
+    body: JSON.stringify({ name }),
+  });
+  if (!response.ok) throw new Error("Failed to update person name");
+  return response.json();
+}

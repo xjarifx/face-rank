@@ -475,6 +475,36 @@ app.delete("/api/admin/people/:id/images", adminAuth, async (req, res) => {
   }
 });
 
+// Update person name (admin only)
+app.put("/api/admin/people/:id", adminAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: "Name is required" });
+    }
+
+    const updatedPerson = await prisma.person.update({
+      where: { id },
+      data: { name: name.trim() },
+      include: { images: true },
+    });
+
+    res.json({
+      success: true,
+      person: {
+        id: updatedPerson.id,
+        name: updatedPerson.name,
+        images: updatedPerson.images.map((img) => img.url),
+      },
+    });
+  } catch (error) {
+    console.error("Error updating person name:", error);
+    res.status(500).json({ error: "Failed to update person" });
+  }
+});
+
 // Graceful shutdown
 process.on("SIGINT", async () => {
   await prisma.$disconnect();
