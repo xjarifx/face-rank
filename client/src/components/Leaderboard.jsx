@@ -27,14 +27,27 @@ export function Leaderboard({ data }) {
     return `#${rank}`;
   };
 
+  const groups = [];
+  let lastRating = null;
+
+  data.forEach((person) => {
+    const ratingValue = person.avgRating;
+    if (lastRating === null || ratingValue !== lastRating) {
+      groups.push({ rating: ratingValue, people: [person] });
+      lastRating = ratingValue;
+    } else {
+      groups[groups.length - 1].people.push(person);
+    }
+  });
+
   return (
     <div className="space-y-3">
-      {data.map((person, index) => {
+      {groups.map((group, index) => {
         const rank = index + 1;
         return (
           <div
-            key={person.id}
-            className="bg-slate-900/80 border border-slate-800/70 rounded-2xl p-4 flex items-center gap-4 shadow-lg hover:border-purple-500/50 hover:shadow-purple-500/20 hover:-translate-y-0.5 transition-all"
+            key={`${group.rating}-${rank}`}
+            className="bg-slate-900/80 border border-slate-800/70 rounded-2xl p-4 flex items-start gap-4 shadow-lg hover:border-purple-500/50 hover:shadow-purple-500/20 hover:-translate-y-0.5 transition-all"
           >
             <div
               className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg ${getRankStyle(
@@ -43,19 +56,32 @@ export function Leaderboard({ data }) {
             >
               {getMedal(rank)}
             </div>
-            <img
-              src={person.image || defaultImage}
-              alt={person.name}
-              className="w-14 h-14 object-cover rounded-full ring-2 ring-cyan-500/40"
-            />
             <div className="flex-1">
-              <h4 className="font-bold text-white">{person.name}</h4>
-              <span className="text-purple-300 text-sm">
-                {person.totalRatings} ratings
-              </span>
+              <div className="flex flex-wrap gap-3">
+                {group.people.map((person) => (
+                  <div
+                    key={person.id}
+                    className="flex items-center gap-3 bg-slate-800/60 rounded-xl px-3 py-2"
+                  >
+                    <img
+                      src={person.image || defaultImage}
+                      alt={person.name}
+                      className="w-12 h-12 object-cover rounded-full ring-2 ring-cyan-500/40"
+                    />
+                    <div>
+                      <h4 className="font-bold text-white leading-tight">
+                        {person.name}
+                      </h4>
+                      <span className="text-purple-300 text-xs">
+                        {person.totalRatings} ratings
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="text-2xl font-bold text-purple-400">
-              {person.avgRating}/5
+            <div className="text-2xl font-bold text-purple-400 whitespace-nowrap">
+              {group.rating}/5
             </div>
           </div>
         );
